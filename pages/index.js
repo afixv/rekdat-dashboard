@@ -1,6 +1,4 @@
-// pages/index.js
 import { useState, useEffect, useRef } from "react";
-import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { calculateCorrelation } from "../lib/utils";
 import fetch from "isomorphic-unfetch";
