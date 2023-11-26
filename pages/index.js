@@ -1,8 +1,8 @@
-// pages/dashboard.js
 import { useState, useEffect, useRef } from "react";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { getChartData } from "../lib/db";
+import { calculateCorrelation } from "../lib/utils"; // Import the correlation calculation function
 
 export async function getServerSideProps() {
   const chartData = await getChartData();
@@ -15,13 +15,9 @@ export async function getServerSideProps() {
 }
 
 const Dashboard = ({ chartData }) => {
-  const [timeScale, setTimeScale] = useState("daily");
   const chartId = "myChart";
   const chartRef = useRef(null);
-
-  const handleTimeScaleChange = (newTimeScale) => {
-    setTimeScale(newTimeScale);
-  };
+  const [correlation, setCorrelation] = useState(null);
 
   useEffect(() => {
     console.log('chartData:', chartData);
@@ -46,18 +42,19 @@ const Dashboard = ({ chartData }) => {
           },
         },
       });
+
+      // Calculate and set the correlation
+      const stockData = chartData.datasets[0].data;
+      const sentimentData = chartData.datasets[1].data;
+      const calculatedCorrelation = calculateCorrelation(stockData, sentimentData);
+      setCorrelation(calculatedCorrelation);
     }
   }, [chartData]);
 
   return (
     <div>
       <h1>Dashboard</h1>
-      <select onChange={(e) => handleTimeScaleChange(e.target.value)}>
-        <option value="daily">Daily</option>
-        <option value="weekly">Weekly</option>
-        <option value="monthly">Monthly</option>
-        <option value="yearly">Yearly</option>
-      </select>
+      <p>Correlation: {correlation !== null ? correlation.toFixed(2) : 'Calculating...'}</p>
       <canvas id={chartId} ref={chartRef} />
     </div>
   );
