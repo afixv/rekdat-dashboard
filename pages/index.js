@@ -97,49 +97,52 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold">Dashboard TSLA Stock</h1>
-      <p>
-        Dashboard untuk Tugas Rekayasa Data, menampilkan grafik stock data dan
-        average sentimen news untuk saham TSLA.
-      </p>
-      <span className="font-bold"> Correlation: </span>
-      <span className={correlationInfo ? correlationInfo.colorClass : ""}>
-        {correlation !== null ? correlation.toFixed(2) : "Calculating..."} (
-        {correlationInfo ? correlationInfo.label : ""})
-      </span>
-
-      <br></br>
-      <hr className="my-2"></hr>
-
-      {/* Filter buttons */}
-      <Button
-        label="Last Month"
-        isActive={activeFilter === "lastMonth"}
-        onClick={() => handleFilterClick("lastMonth")}
-      />
-      <Button
-        label="Last 3 Month"
-        isActive={activeFilter === "last3Month"}
-        onClick={() => handleFilterClick("last3Month")}
-      />
-      <Button
-        label="Last Year"
-        isActive={activeFilter === "lastYear"}
-        onClick={() => handleFilterClick("lastYear")}
-      />
-      <Button
-        label="All Data"
-        isActive={activeFilter === ""}
-        onClick={() => handleFilterClick("")}
-      />
+      <div className="mx-auto">
+        <h1 className="text-3xl text-center font-bold">Dashboard TSLA Stock</h1>
+        <p className="text-center">
+          Dashboard untuk Tugas Rekayasa Data, menampilkan grafik stock data dan
+          average sentimen news untuk saham TSLA.
+        </p>
+        <div className="flex justify-center">
+          <span className="font-bold"> Correlation: </span>
+          <span className={correlationInfo ? correlationInfo.colorClass : ""}>
+            {correlation !== null ? correlation.toFixed(2) : "Calculating..."} (
+            {correlationInfo ? correlationInfo.label : ""})
+          </span>
+        </div>
+        <div className="flex justify-center">
+          <Button
+            label="Last Month"
+            isActive={activeFilter === "lastMonth"}
+            onClick={() => handleFilterClick("lastMonth")}
+          />
+          <Button
+            label="Last 3 Month"
+            isActive={activeFilter === "last3Month"}
+            onClick={() => handleFilterClick("last3Month")}
+          />
+          <Button
+            label="Last Year"
+            isActive={activeFilter === "lastYear"}
+            onClick={() => handleFilterClick("lastYear")}
+          />
+          <Button
+            label="All Data"
+            isActive={activeFilter === ""}
+            onClick={() => handleFilterClick("")}
+          />{" "}
+        </div>
+      </div>
 
       {isLoading ? (
-        <div className="flex justify-center mt-52 items-center">
+        <div className="flex justify-center mt-52 items-center ">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
           <p className="ml-2 font-medium text-blue-400">Loading...</p>
         </div>
       ) : (
-        <canvas id={chartId} ref={chartRef} />
+        <div className="flex mt-2 justify-center mx-auto md:h-[80vh]">
+          <canvas id={chartId} ref={chartRef} />
+        </div>
       )}
     </div>
   );
