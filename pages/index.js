@@ -133,14 +133,14 @@ const Dashboard = () => {
         onClick={() => handleFilterClick("")}
       />
 
-      {isLoading && (
-        <div className="flex justify-center items-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-          <p className="ml-2">Loading...</p>
+      {isLoading ? (
+        <div className="flex justify-center mt-52 items-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+          <p className="ml-2 font-medium text-blue-400">Loading...</p>
         </div>
+      ) : (
+        <canvas id={chartId} ref={chartRef} />
       )}
-
-      <canvas id={chartId} ref={chartRef} />
     </div>
   );
 };
