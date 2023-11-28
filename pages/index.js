@@ -78,12 +78,34 @@ const Dashboard = () => {
     }
   }, [chartData]);
 
+  const categorizeCorrelationLevel = (correlation) => {
+    if (correlation >= 0.8 || correlation <= -0.8) {
+      return { label: "Very high", colorClass: "text-blue-700" };
+    } else if (correlation >= 0.6 || correlation <= -0.6) {
+      return { label: "High", colorClass: "text-blue-500" };
+    } else if (correlation >= 0.4 || correlation <= -0.4) {
+      return { label: "Moderate", colorClass: "text-yellow-500" };
+    } else if (correlation >= 0.2 || correlation <= -0.2) {
+      return { label: "Low", colorClass: "text-red-500" };
+    } else {
+      return { label: "Very low", colorClass: "text-red-700" };
+    }
+  };
+
+  const correlationInfo =
+    correlation !== null ? categorizeCorrelationLevel(correlation) : null;
+
   return (
     <div>
-      <h1 className="text-3xl font-bold">Dashboard</h1>
+      <h1 className="text-3xl font-bold">Dashboard TSLA Stock</h1>
+      <p>
+        Dashboard untuk Tugas Rekayasa Data, menampilkan grafik stock data dan
+        average sentimen news untuk saham TSLA.
+      </p>
       <span className="font-bold"> Correlation: </span>
-      <span>
-        {correlation !== null ? correlation.toFixed(2) : "Calculating..."}
+      <span className={correlationInfo ? correlationInfo.colorClass : ""}>
+        {correlation !== null ? correlation.toFixed(2) : "Calculating..."} (
+        {correlationInfo ? correlationInfo.label : ""})
       </span>
 
       <br></br>
@@ -111,7 +133,12 @@ const Dashboard = () => {
         onClick={() => handleFilterClick("")}
       />
 
-      {isLoading && <p>Loading...</p>}
+      {isLoading && (
+        <div className="flex justify-center items-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+          <p className="ml-2">Loading...</p>
+        </div>
+      )}
 
       <canvas id={chartId} ref={chartRef} />
     </div>
